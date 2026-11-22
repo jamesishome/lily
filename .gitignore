@@ -1,2 +1,8 @@
 _build/
 *.install
+*.vo
+*.vok
+*.vos
+*.glob
+.*.aux
+.lia.cache

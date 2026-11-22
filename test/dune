@@ -10,10 +10,16 @@
  (action
   (run %{bin:lily} compile %{deps} -o %{target})))
 
-(test
- (name test)
- (modules term block test)
- (libraries bind))
+(library
+ (name model)
+ (modules model)
+ (flags
+  (:standard -w -a)))
+
+(tests
+ (names test agree)
+ (modules term block test agree)
+ (libraries bind model))
 
 (cram
  (deps
