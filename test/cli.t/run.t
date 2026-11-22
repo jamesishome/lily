@@ -17,12 +17,10 @@ Narrowing the pair arm from two binders to one changes the scope of #1
   [1]
   $ sh ../../examples/probe.sh ../../examples/term.li one.li
   + lily compile ../../examples/term.li -o term.ml
-    schema  PairArm of { body: bind 2 in term }
-    probe   PairArm { body = #1 } at depth 0 -> accepted
+  PairArm { body = #1 } at depth 0 -> accepted
   + lily compile one.li -o term.ml
-    schema  PairArm of { body: bind 1 in term }
-    probe   PairArm { body = #1 } at depth 0 -> rejected
-        substitution input: #1 under 1 local binder is out of scope at depth 0
+  PairArm { body = #1 } at depth 0 -> rejected
+    substitution input: #1 under 1 local binder is out of scope at depth 0
 
 Malformed schemas report file, line and column
 

@@ -28,21 +28,21 @@ dune build
 dune exec examples/subst.exe
 ```
 
-A truncated run looks like this:
+It prints:
 
 ```
          q        p        f        a        x        y
 before   #0       #1       #2       #3       #4       #5
 subst0   #0       #1       #2       #3       (#4 #4)  #4       -> y
-one-off  #0       #1       #2       #3       (#4 #4)  #3       -> a  captured
-...
-after Term.subst0 ~depth:1
-  let (#0 #0) in                    let a = (y y) in
-  letrec (#0 (#2 #2)) in            letrec f = (f (y y)) in
-  case #1                           case a
-  | pair (#0 #1 #2 #3 (#4 #4) #4)   | (p, q) -> (q p f a (y y) y)
-  | _ (#2 #2)                       | _ -> (y y)
-  else #2                           else y
+one-off  #0       #1       #2       #3       (#4 #4)  #3       -> a
+
+before, depth 2                   after, depth 1
+let #0 in                         let (#0 #0) in
+letrec (#0 #2) in                 letrec (#0 (#2 #2)) in
+case #1                           case #1
+| pair (#0 #1 #2 #3 #4 #5)        | pair (#0 #1 #2 #3 (#4 #4) #4)
+| _ #2                            | _ (#2 #2)
+else #3                           else #2
 ```
 
 Scope comes from the schema. If you change the pair arm to `bind 1 in term` in a copy and regenerate, the same probe stops accepting a closed arm whose body is `#1`:
@@ -54,10 +54,11 @@ PATH=$PWD/_build/install/default/bin:$PATH sh examples/probe.sh examples/term.li
 ```
 
 ```
-  probe   PairArm { body = #1 } at depth 0 -> accepted
-  ...
-  probe   PairArm { body = #1 } at depth 0 -> rejected
-      substitution input: #1 under 1 local binder is out of scope at depth 0
++ lily compile examples/term.li -o term.ml
+PairArm { body = #1 } at depth 0 -> accepted
++ lily compile /tmp/lily/one.li -o term.ml
+PairArm { body = #1 } at depth 0 -> rejected
+  substitution input: #1 under 1 local binder is out of scope at depth 0
 ```
 
 To run the tests from a clean checkout:

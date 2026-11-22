@@ -11,6 +11,5 @@ for schema in "$@"; do
   "$lily" compile "$schema" -o "$dir/$n/term.ml"
   cp "$root/runtime/bind.ml" "$root/examples/probe.ml" "$dir/$n/"
   (cd "$dir/$n" && ocamlopt -o probe bind.ml term.ml probe.ml)
-  printf '  schema  %s\n' "$(grep -o 'PairArm of { body: [^}]*}' "$schema")"
-  "$dir/$n/probe" | sed '1s/^/  probe   /; 2,$s/^/    /'
+  "$dir/$n/probe"
 done
