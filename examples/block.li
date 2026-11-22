@@ -1,0 +1,12 @@
+(* the variable sort need not come first, and binders may scope a whole list *)
+type stmt =
+  | Skip
+  | Seq of { first: stmt; rest: stmt }
+  | Local of { init: expr; scope: bind 1 in stmt }
+  | Loop of { body: bind 2 in list(stmt) }
+
+and expr =
+  | Slot of index
+  | Const
+  | Call of { callee: expr; args: list(expr) }
+  | Guard of { test: option(expr); body: stmt }

@@ -1,0 +1,10 @@
+(rule
+ (target term.ml)
+ (deps term.li)
+ (action
+  (run %{bin:lily} compile %{deps} -o %{target})))
+
+(executables
+ (names subst probe)
+ (modules term subst probe)
+ (libraries bind))

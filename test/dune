@@ -1,0 +1,24 @@
+(rule
+ (target term.ml)
+ (deps ../examples/term.li)
+ (action
+  (run %{bin:lily} compile %{deps} -o %{target})))
+
+(rule
+ (target block.ml)
+ (deps ../examples/block.li)
+ (action
+  (run %{bin:lily} compile %{deps} -o %{target})))
+
+(test
+ (name test)
+ (modules term block test)
+ (libraries bind))
+
+(cram
+ (deps
+  %{bin:lily}
+  (glob_files ../examples/*.li)
+  ../runtime/bind.ml
+  ../examples/probe.ml
+  ../examples/probe.sh))

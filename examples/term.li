@@ -1,0 +1,11 @@
+type term =
+  | Var of index
+  | Lam of { body: bind 1 in term }
+  | App of { fn: term; arg: term }
+  | Let of { rhs: term; body: bind 1 in term }
+  | LetRec of { rhs: bind 1 in term; body: bind 1 in term }
+  | Case of { scrutinee: term; arms: list(arm); fallback: option(term) }
+
+and arm =
+  | PairArm of { body: bind 2 in term }
+  | DefaultArm of { body: term }
