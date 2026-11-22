@@ -1,0 +1,3 @@
+(library
+ (name bind)
+ (public_name lily.bind))
